@@ -10,7 +10,7 @@ if __name__ == '__main__':
 	#os.system('mplayer test.mp4 &')
 	init_time = time.time()
 	while time.time() <= init_time + 218:
-		os.system('clear')
+		# os.system('clear')
 		print(frames[int((time.time()-init_time)*10)])
 		time.sleep(0.05)
 

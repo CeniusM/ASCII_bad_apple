@@ -4,7 +4,7 @@ video_length = 218
 
 ASCII_CHARS = '$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,"^`\'. '
 
-def scale_image(image, new_width=100, new_height=30):
+def scale_image(image, new_width=200, new_height=60):
     """Resizes an image preserving the aspect ratio.
     """
     (original_width, original_height) = image.size
@@ -31,7 +31,7 @@ def map_pixels_to_ascii_chars(image, range_width=3.69):
 
     return "".join(pixels_to_chars)
 
-def convert_image_to_ascii(image, new_width=100, new_height=30):
+def convert_image_to_ascii(image, new_width=200, new_height=60):
     image = scale_image(image, new_width, new_height)
     image = convert_to_grayscale(image)
 
@@ -39,7 +39,7 @@ def convert_image_to_ascii(image, new_width=100, new_height=30):
     len_pixels_to_chars = len(pixels_to_chars)
 
     image_ascii = [pixels_to_chars[index: index + new_width] for index in
-            xrange(0, len_pixels_to_chars, new_width)]
+            range(0, len_pixels_to_chars, new_width)]
 
     return "\n".join(image_ascii)
 
@@ -47,9 +47,9 @@ def handle_image_conversion(image_filepath):
     image = None
     try:
         image = Image.open(image_filepath)
-    except Exception, e:
-        print "Unable to open image file {image_filepath}.".format(image_filepath=image_filepath)
-        print e
+    except Exception as e:
+        print ("Unable to open image file {image_filepath}.".format(image_filepath=image_filepath))
+        print (e)
         return
     image_ascii = convert_image_to_ascii(image)
     return image_ascii
@@ -62,7 +62,7 @@ if __name__=='__main__':
     time_count = 0
     frames = []
     while time_count <= video_length*1000:
-        print('Generating ASCII frame at ' + str(time_count))
+        print('Generating ASCII frame at ' + str(time_count) + " out of: " + str(video_length * 1000))
         vidcap.set(0, time_count)
         success, image = vidcap.read()
         if success:
@@ -73,4 +73,5 @@ if __name__=='__main__':
     f = open('play.txt', 'w')
     f.write('SPLIT'.join(frames))
     f.close()
+
 
